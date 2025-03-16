@@ -14,6 +14,27 @@
     }
   },
   "types": "dist/index.d.ts",
+  "author": {
+    "name": "eric-hwang",
+    "email": "janghyeon.hwang98@gmail.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eric-hjh/react-ios-style-time-picker.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eric-hjh/react-ios-style-time-picker/issues"
+  },
+  "license": "MIT",
+  "keywords": [
+    "React Time picker",
+    "React timepicker",
+    "iOS style timepicker",
+    "iOS style Time picker",
+    "React iOS style timepicker",
+    "React iOS style Time picker"
+  ],
+  "homepage": "https://github.com/eric-hjh/react-ios-style-time-picker#readme",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
