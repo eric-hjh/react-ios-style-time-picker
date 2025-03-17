@@ -10,10 +10,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 export default defineConfig({
   plugins: [react(), dts()],
   build: {
+    sourcemap: true,
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'iosStyleTimePicker',
       fileName: 'react-ios-style-time-picker',
+      cssFileName: 'react-ios-style-time-picker-style',
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

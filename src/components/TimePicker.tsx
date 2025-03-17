@@ -1,3 +1,4 @@
+import './TimePicker.css';
 import { useEffect, useRef } from 'react';
 
 import TimePickerSource from './TimePickerSource';

@@ -1,6 +1,6 @@
 {
   "name": "react-ios-style-time-picker",
-  "version": "0.0.0",
+  "version": "0.0.3",
   "type": "module",
   "files": [
     "dist"
@@ -11,7 +11,8 @@
     ".": {
       "import": "./dist/react-ios-style-time-picker.js",
       "require": "./dist/react-ios-style-time-picker.umd.cjs"
-    }
+    },
+    "./style.css": "./dist/react-ios-style-time-picker-style.css"
   },
   "types": "dist/index.d.ts",
   "author": {
