@@ -319,8 +319,7 @@ class IosStylePicker {
     }
   }
 
-  //개선
-  updateSource(currentHour: number) {
+  selectByCurrentHour(currentHour: number) {
     if (!this.moving) {
       this._selectByScroll(currentHour);
     }
