@@ -1,6 +1,6 @@
 {
   "name": "react-ios-style-time-picker",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "files": [
     "dist"
@@ -9,12 +9,13 @@
   "module": "./dist/react-ios-style-time-picker.js",
   "exports": {
     ".": {
+      "types": "./dist/index.d.ts",
       "import": "./dist/react-ios-style-time-picker.js",
       "require": "./dist/react-ios-style-time-picker.umd.cjs"
     },
     "./style.css": "./dist/react-ios-style-time-picker.css"
   },
-  "types": "dist/index.d.ts",
+  "types": "./dist/index.d.ts",
   "author": {
     "name": "eric-hwang",
     "email": "janghyeon.hwang98@gmail.com"
