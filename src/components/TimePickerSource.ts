@@ -4,56 +4,53 @@ type TimePickerSourceItem = {
 };
 
 export type TimePickerSourceOptions = {
-  format?: '12' | '24';
+  hourFormat?: '12' | '24';
   infinite?: boolean;
 };
 
 class TimePickerSource {
   #hours: TimePickerSourceItem[];
   #minutes: TimePickerSourceItem[];
-  #format: '12' | '24';
+  #hourFormat: '12' | '24';
   #infinite: boolean;
 
-  constructor({ format, infinite }: TimePickerSourceOptions = {}) {
-    this.#format = format ?? '12';
+  constructor({ hourFormat, infinite }: TimePickerSourceOptions = {}) {
+    this.#hourFormat = hourFormat ?? '12';
     this.#infinite = infinite ?? false;
     this.#hours = this.#getHours();
     this.#minutes = this.#getMinutes();
   }
 
-  #getItems(from: number, to: number) {
-    return Array.from({ length: to - from + 1 }, (_, i) => ({
-      value: i + from,
-      text: String(i + from).padStart(2, '0'),
-    }));
-  }
-
-  //개선
-
   #adjustTextFor12Hour(value: number): string {
-    if (value < 12) {
-      return String(value === 0 ? 12 : value);
+    if (value === 0) {
+      return '12';
     }
-    return String(value - 12 === 0 ? 12 : value - 12);
+    if (value > 12) {
+      return String(value - 12);
+    }
+    return String(value);
   }
 
-  #getItemsFor12Hour(from: number, to: number) {
-    return Array.from({ length: to - from + 1 }, (_, i) => ({
-      value: i + from,
-      text: this.#adjustTextFor12Hour(i + from),
-    }));
+  #getItems(from: number, to: number, is12HourFormat: boolean = false) {
+    return Array.from({ length: to - from + 1 }, (_, i) => {
+      const value = i + from;
+      const text = is12HourFormat
+        ? this.#adjustTextFor12Hour(value)
+        : String(value).padStart(2, '0');
+      return { value, text };
+    });
   }
 
   #getHours() {
-    if (this.#format === '12') {
-      if (this.#infinite) {
-        return this.#getItemsFor12Hour(0, 23);
-      }
-
-      return this.#getItemsFor12Hour(1, 12);
+    const is12HourFormat = this.#hourFormat === '12';
+    if (this.#infinite) {
+      return this.#getItems(0, 23, is12HourFormat);
     }
-
-    return this.#getItems(0, 23);
+    return this.#getItems(
+      is12HourFormat ? 1 : 0,
+      is12HourFormat ? 12 : 23,
+      is12HourFormat
+    );
   }
 
   #getMinutes() {
