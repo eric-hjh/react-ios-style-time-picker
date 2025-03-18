@@ -23,12 +23,14 @@ export interface IosStylePickerOptions {
   count?: number;
   sensitivity?: number;
   value?: number;
+  currentData?: number;
 }
 
 class IosStylePicker {
   private variant: IosStylePickerVariant;
   private source: IosStylePickerSourceItem[];
   private selected: { value: number; text: string };
+  private currentData: number;
 
   private onChange?: (selected: IosStylePickerSourceItem) => void;
   private onSelect?: (selected: IosStylePickerSourceItem) => void;
@@ -62,7 +64,10 @@ class IosStylePicker {
   constructor(targetElement: HTMLElement, options: IosStylePickerOptions) {
     this.variant = options.variant ?? 'infinite';
     this.source = options.source;
-    this.selected = this.source[0];
+    this.currentData =
+      typeof options.currentData === 'number' ? options.currentData - 1 : 0;
+
+    this.selected = this.source[this.currentData];
 
     this.onChange = options.onChange;
     this.onSelect = options.onSelect;

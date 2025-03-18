@@ -17,10 +17,10 @@ export type TimePickerProps = {
 type TimePickerStateRef = {
   currentHour: number;
   currentMinute: number;
+  currentAmPm: number;
   source: TimePickerSource;
   onChange: TimePickerProps['onChange'];
   onChangeTimeout: NodeJS.Timeout | null;
-  isAm: boolean;
 };
 
 const TimePicker = ({
@@ -39,13 +39,13 @@ const TimePicker = ({
         ? _initTime.getHours() % 12 || 12
         : _initTime.getHours(),
     currentMinute: _initTime.getMinutes(),
+    currentAmPm: _initTime.getHours() < 12 ? 1 : 2,
     source: new TimePickerSource({
       hourFormat: hourFormat,
       infinite: infinite,
     }),
     onChange,
     onChangeTimeout: null,
-    isAm: _initTime.getHours() < 12,
   }).current;
 
   const ampmPickerRef = useRef<HTMLDivElement>(null);
@@ -79,17 +79,17 @@ const TimePicker = ({
           { value: 1, text: '오전' },
           { value: 2, text: '오후' },
         ],
+        currentData: ref.currentAmPm,
         onChange: (selected) => {
-          const changed = ref.isAm !== (selected.value === 1);
+          const changed = ref.currentAmPm !== selected.value;
 
           if (hourFormat === '12') {
             if (selected.value === 1) {
               ref.currentHour = ref.currentHour % 12;
-              ref.isAm = true;
             } else if (selected.value === 2) {
               ref.currentHour = (ref.currentHour % 12) + 12;
-              ref.isAm = false;
             }
+            ref.currentAmPm = selected.value;
           }
 
           if (changed) {
@@ -107,9 +107,9 @@ const TimePicker = ({
       onChange: (selected) => {
         const changed = ref.currentHour !== selected.value;
 
-        if (ref.isAm === false && selected.value < 12) {
+        if (ref.currentAmPm === 2 && selected.value < 12) {
           ref.currentHour = selected.value + 12;
-        } else if (ref.isAm === true && selected.value === 12) {
+        } else if (ref.currentAmPm === 1 && selected.value === 12) {
           ref.currentHour = 0;
         } else {
           ref.currentHour = selected.value;
@@ -123,12 +123,12 @@ const TimePicker = ({
           if (currentIndex.value < 12) {
             if (ampmSelector) {
               ampmSelector.updateAmPm(1);
-              ref.isAm = true;
+              ref.currentAmPm = 1;
             }
           } else if (currentIndex.value >= 12) {
             if (ampmSelector) {
               ampmSelector.updateAmPm(2);
-              ref.isAm = false;
+              ref.currentAmPm = 2;
             }
           }
         }
