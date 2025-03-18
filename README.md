@@ -6,6 +6,10 @@
 
 iOS Style time picker for your next React app.
 
+## Demo
+
+Check out the live demo here: [Live Demo](https://eric-hjh.github.io/react-ios-style-time-picker/?path=/story/timepicker--default)
+
 ## install
 
 ```
@@ -83,15 +87,16 @@ function App() {
 - `12`: Displays AM/PM notation
 - `24`: Displays 0-23 hour format
 
-## Reference
-
-It's forked from [this gist](https://gist.github.com/wjpeters/876a8fe4040a2bb4b4eb28d2270620a5)
-
 ## Get involved!
 
 We appreciate your feedback and contributions. If you have feature requests, questions, or want to contribute code or config files, please don't hesitate to use the GitHub Issue tracker.
 
-We welcome all individual contributors, regardless of their level of experience or hardware. Your contributions are valuable, and we are excited to see what you can accomplish in this collaborative and supportive environment.
+We welcome all individual contributors, regardless of their level of experience or skill set. Your contributions are valuable, and we are excited to see what you can accomplish in this collaborative and supportive environment.
+
+## Reference
+
+Inspired by [ios-style-picker](https://www.npmjs.com/package/ios-style-picker?activeTab=readme)
+It's forked from [this gist](https://gist.github.com/wjpeters/876a8fe4040a2bb4b4eb28d2270620a5)
 
 ## License
 
