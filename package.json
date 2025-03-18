@@ -42,9 +42,11 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "deploy-storybook": "storybook-to-ghpages"
   },
   "dependencies": {
+    "@storybook/storybook-deployer": "^2.8.16",
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
   },
