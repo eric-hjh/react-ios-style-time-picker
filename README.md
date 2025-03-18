@@ -2,8 +2,7 @@
 
 # React ios style time picker
 
-<img width="312" alt="Image" src="https://github.com/user-attachments/assets/fe6aa3d2-9888-4353-a1f0-9ff258eaf1c2" />
-<img width="312" alt="Image" src="https://github.com/user-attachments/assets/d3bc1fab-5ee9-4072-8f56-f502e3019d7e" />
+![Image](https://github.com/user-attachments/assets/ff08826c-d6ac-408a-a934-b9746367311b)
 
 iOS Style time picker for your next React app.
 
@@ -17,7 +16,9 @@ npm i react-ios-style-time-picker
 
 ### 12 hours format
 
-```ts
+<img width="312" alt="Image" src="https://github.com/user-attachments/assets/fe6aa3d2-9888-4353-a1f0-9ff258eaf1c2" />
+
+```tsx
 import { useState } from 'react';
 import { TimePicker } from 'react-ios-style-time-picker';
 import 'react-ios-style-time-picker/style.css';
@@ -42,7 +43,9 @@ function App() {
 
 ### 24 hours format
 
-```ts
+<img width="312" alt="Image" src="https://github.com/user-attachments/assets/d3bc1fab-5ee9-4072-8f56-f502e3019d7e" />
+
+```tsx
 import { useState } from 'react';
 import { TimePicker } from 'react-ios-style-time-picker';
 import 'react-ios-style-time-picker/style.css';
