@@ -96,6 +96,7 @@ We welcome all individual contributors, regardless of their level of experience 
 ## Reference
 
 Inspired by [ios-style-picker](https://www.npmjs.com/package/ios-style-picker?activeTab=readme)
+
 It's forked from [this gist](https://gist.github.com/wjpeters/876a8fe4040a2bb4b4eb28d2270620a5)
 
 ## License
