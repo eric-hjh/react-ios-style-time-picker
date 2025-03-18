@@ -11,7 +11,7 @@ export type TimePickerProps = {
   initTime?: Date;
   infinite?: boolean;
   className?: string;
-  format?: '12' | '24';
+  hourFormat?: '12' | '24';
 };
 
 type TimePickerStateRef = {
@@ -23,25 +23,24 @@ type TimePickerStateRef = {
   isAm: boolean;
 };
 
-//개선 format 개선
 const TimePicker = ({
   onChange,
   initTime: _initTime = new Date(),
   infinite = false,
   className: _className,
-  format = '12',
+  hourFormat = '12',
 }: TimePickerProps) => {
   const className =
     'react-ios-style-time-picker' + (_className ? ` ${_className}` : '');
 
   const ref = useRef<TimePickerStateRef>({
     currentHour:
-      format === '12' && !infinite
+      hourFormat === '12' && !infinite
         ? _initTime.getHours() % 12 || 12
         : _initTime.getHours(),
     currentMinute: _initTime.getMinutes(),
     source: new TimePickerSource({
-      format: format,
+      hourFormat: hourFormat,
       infinite: infinite,
     }),
     onChange,
@@ -69,11 +68,11 @@ const TimePicker = ({
     };
 
     const updateHourSource = () => {
-      hourSelector.updateSource(ref.currentHour);
+      hourSelector.selectByCurrentHour(ref.currentHour);
     };
 
     const ampmSelector =
-      format === '12' &&
+      hourFormat === '12' &&
       new IosStylePicker(ampmPickerRef.current!, {
         variant: 'normal',
         source: [
@@ -83,7 +82,7 @@ const TimePicker = ({
         onChange: (selected) => {
           const changed = ref.isAm !== (selected.value === 1);
 
-          if (format === '12') {
+          if (hourFormat === '12') {
             if (selected.value === 1) {
               ref.currentHour = ref.currentHour % 12;
               ref.isAm = true;
@@ -120,7 +119,7 @@ const TimePicker = ({
         }
       },
       onSelect: (currentIndex) => {
-        if (infinite === true && format === '12') {
+        if (infinite === true && hourFormat === '12') {
           if (currentIndex.value < 12) {
             if (ampmSelector) {
               ampmSelector.updateAmPm(1);
@@ -151,13 +150,13 @@ const TimePicker = ({
 
     setTimeout(() => {
       const initHour =
-        format === '12' && !infinite
+        hourFormat === '12' && !infinite
           ? _initTime.getHours() % 12 || 12
           : _initTime.getHours();
       const initMinute = _initTime.getMinutes();
       const initAmPm = _initTime.getHours() < 12 ? 1 : 2;
 
-      if (format === '12' && ampmSelector) {
+      if (hourFormat === '12' && ampmSelector) {
         ampmSelector.select(initAmPm);
       }
 
@@ -172,11 +171,11 @@ const TimePicker = ({
       hourSelector.destroy();
       minuteSelector.destroy();
     };
-  }, [infinite, format]);
+  }, [infinite, hourFormat]);
 
   return (
     <div className={className}>
-      {format === '12' && <div ref={ampmPickerRef} />}
+      {hourFormat === '12' && <div ref={ampmPickerRef} />}
       <div ref={hourPickerRef} />
       <div ref={minutePickerRef} />
     </div>

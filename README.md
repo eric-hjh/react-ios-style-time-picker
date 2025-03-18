@@ -1,6 +1,7 @@
 [![npm](https://img.shields.io/npm/v/react-ios-style-time-picker)](https://www.npmjs.com/package/react-ios-style-time-picker)
 
 # React ios style time picker
+
 <img width="312" alt="Image" src="https://github.com/user-attachments/assets/fe6aa3d2-9888-4353-a1f0-9ff258eaf1c2" />
 <img width="312" alt="Image" src="https://github.com/user-attachments/assets/d3bc1fab-5ee9-4072-8f56-f502e3019d7e" />
 
@@ -19,6 +20,7 @@ npm i react-ios-style-time-picker
 ```ts
 import { useState } from 'react';
 import { TimePicker } from 'react-ios-style-time-picker';
+import 'react-ios-style-time-picker/style.css';
 
 function App() {
   const [time, setTime] = useState<{ hour: number; minute: number }>({
@@ -32,7 +34,7 @@ function App() {
 
   return (
     <div>
-      <TimePicker onChange={handleTimeChange} format='12' />
+      <TimePicker onChange={handleTimeChange} hourFormat='12' />
     </div>
   );
 }
@@ -43,6 +45,7 @@ function App() {
 ```ts
 import { useState } from 'react';
 import { TimePicker } from 'react-ios-style-time-picker';
+import 'react-ios-style-time-picker/style.css';
 
 function App() {
   const [time, setTime] = useState<{ hour: number; minute: number }>({
@@ -56,7 +59,7 @@ function App() {
 
   return (
     <div>
-      <TimePicker onChange={handleTimeChange} format='24' />
+      <TimePicker onChange={handleTimeChange} hourFormat='24' />
     </div>
   );
 }
@@ -64,15 +67,15 @@ function App() {
 
 ## Props
 
-| Prop        | Type                                     | Required | Default      | Description                                     |
-| :---------- | :--------------------------------------- | :------- | :----------- | :---------------------------------------------- |
-| `onChange`  | `(hour: number, minute: number) => void` | ✅       | -            | Callback invoked when the selected time changes |
-| `initTime`  | `Date`                                   | ❌       | `new Date()` | Sets the initial time                           |
-| `infinite`  | `boolean`                                | ❌       | `false`      | Enables infinite scroll style                   |
-| `className` | `string`                                 | ❌       | `undefined`  | Custom class name for styling                   |
-| `format`    | `'12'` \| `'24'`                         | ❌       | `'12'`       | Time format (12-hour/24-hour)                   |
+| Prop         | Type                                     | Required | Default      | Description                                     |
+| :----------- | :--------------------------------------- | :------- | :----------- | :---------------------------------------------- |
+| `onChange`   | `(hour: number, minute: number) => void` | ✅       | -            | Callback invoked when the selected time changes |
+| `initTime`   | `Date`                                   | ❌       | `new Date()` | Sets the initial time                           |
+| `infinite`   | `boolean`                                | ❌       | `false`      | Enables infinite scroll style                   |
+| `className`  | `string`                                 | ❌       | `undefined`  | Custom class name for styling                   |
+| `hourFormat` | `'12'` \| `'24'`                         | ❌       | `'12'`       | Time format (12-hour/24-hour)                   |
 
-## Time Format (`format`)
+## Time Format (`hourFormat`)
 
 - `12`: Displays AM/PM notation
 - `24`: Displays 0-23 hour format
