@@ -14,7 +14,6 @@ export default defineConfig({
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'iosStyleTimePicker',
       fileName: 'react-ios-style-time-picker',
-      cssFileName: 'react-ios-style-time-picker-style',
     },
     rollupOptions: {
       external: ['react', 'react-dom'],

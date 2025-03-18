@@ -319,9 +319,8 @@ class IosStylePicker {
     }
   }
 
-  updateSource(source: IosStylePickerSourceItem[], currentHour: number) {
-    this._create(source);
-
+  //개선
+  updateSource(currentHour: number) {
     if (!this.moving) {
       this._selectByScroll(currentHour);
     }

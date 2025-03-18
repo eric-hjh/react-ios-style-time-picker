@@ -23,6 +23,7 @@ type TimePickerStateRef = {
   isAm: boolean;
 };
 
+//개선 format 개선
 const TimePicker = ({
   onChange,
   initTime: _initTime = new Date(),
@@ -34,12 +35,14 @@ const TimePicker = ({
     'react-ios-style-time-picker' + (_className ? ` ${_className}` : '');
 
   const ref = useRef<TimePickerStateRef>({
-    currentHour: _initTime.getHours(),
+    currentHour:
+      format === '12' && !infinite
+        ? _initTime.getHours() % 12 || 12
+        : _initTime.getHours(),
     currentMinute: _initTime.getMinutes(),
     source: new TimePickerSource({
       format: format,
       infinite: infinite,
-      currentHour: _initTime.getHours(),
     }),
     onChange,
     onChangeTimeout: null,
@@ -66,8 +69,7 @@ const TimePicker = ({
     };
 
     const updateHourSource = () => {
-      ref.source.setCurrent(ref.currentHour);
-      hourSelector.updateSource(ref.source.hours, ref.currentHour);
+      hourSelector.updateSource(ref.currentHour);
     };
 
     const ampmSelector =
@@ -148,7 +150,10 @@ const TimePicker = ({
     });
 
     setTimeout(() => {
-      const initHour = _initTime.getHours();
+      const initHour =
+        format === '12' && !infinite
+          ? _initTime.getHours() % 12 || 12
+          : _initTime.getHours();
       const initMinute = _initTime.getMinutes();
       const initAmPm = _initTime.getHours() < 12 ? 1 : 2;
 
