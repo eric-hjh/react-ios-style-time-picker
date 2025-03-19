@@ -20,7 +20,7 @@ npm i react-ios-style-time-picker
 
 ### 12 hours format
 
-<img width="312" alt="Image" src="https://github.com/user-attachments/assets/fe6aa3d2-9888-4353-a1f0-9ff258eaf1c2" />
+<img width="312" alt="Image" src="https://github.com/user-attachments/assets/30e13b77-f572-4ee9-a6bd-06e02e09edfc" />
 
 ```tsx
 import { useState } from 'react';
