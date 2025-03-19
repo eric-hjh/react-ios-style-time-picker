@@ -1,7 +1,7 @@
 import './TimePicker.css';
 import { useEffect, useRef } from 'react';
 
-import TimePickerSource from './TimePickerSource';
+import TimePickerSource, { LOCALE_MAP } from './TimePickerSource';
 import IosStylePicker from './IosStylePicker/IosStylePicker';
 
 const ONCHANGE_TIMEOUT_DELAY = 100;
@@ -12,6 +12,7 @@ export type TimePickerProps = {
   infinite?: boolean;
   className?: string;
   hourFormat?: '12' | '24';
+  locale?: keyof typeof LOCALE_MAP;
 };
 
 type TimePickerStateRef = {
@@ -29,6 +30,7 @@ const TimePicker = ({
   infinite = false,
   className: _className,
   hourFormat = '12',
+  locale = 'en',
 }: TimePickerProps) => {
   const className =
     'react-ios-style-time-picker' + (_className ? ` ${_className}` : '');
@@ -43,6 +45,7 @@ const TimePicker = ({
     source: new TimePickerSource({
       hourFormat: hourFormat,
       infinite: infinite,
+      locale: locale,
     }),
     onChange,
     onChangeTimeout: null,
@@ -75,10 +78,7 @@ const TimePicker = ({
       hourFormat === '12' &&
       new IosStylePicker(ampmPickerRef.current!, {
         variant: 'normal',
-        source: [
-          { value: 1, text: '오전' },
-          { value: 2, text: '오후' },
-        ],
+        source: ref.source.ampm,
         currentData: ref.currentAmPm,
         onChange: (selected) => {
           const changed = ref.currentAmPm !== selected.value;

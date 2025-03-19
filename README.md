@@ -74,13 +74,14 @@ function App() {
 
 ## Props
 
-| Prop         | Type                                     | Required | Default      | Description                                     |
-| :----------- | :--------------------------------------- | :------- | :----------- | :---------------------------------------------- |
-| `onChange`   | `(hour: number, minute: number) => void` | ✅       | -            | Callback invoked when the selected time changes |
-| `initTime`   | `Date`                                   | ❌       | `new Date()` | Sets the initial time                           |
-| `infinite`   | `boolean`                                | ❌       | `false`      | Enables infinite scroll style                   |
-| `className`  | `string`                                 | ❌       | `undefined`  | Custom class name for styling                   |
-| `hourFormat` | `'12'` \| `'24'`                         | ❌       | `'12'`       | Time format (12-hour/24-hour)                   |
+| Prop         | Type                                     | Required | Default      | Description                                                        |
+| :----------- | :--------------------------------------- | :------- | :----------- | :----------------------------------------------------------------- |
+| `onChange`   | `(hour: number, minute: number) => void` | ✅       | -            | Callback invoked when the selected time changes                    |
+| `initTime`   | `Date`                                   | ❌       | `new Date()` | Sets the initial time                                              |
+| `infinite`   | `boolean`                                | ❌       | `false`      | Enables infinite scroll style                                      |
+| `className`  | `string`                                 | ❌       | `undefined`  | Custom class name for styling                                      |
+| `hourFormat` | `'12'` \| `'24'`                         | ❌       | `'12'`       | Time format (12-hour/24-hour)                                      |
+| `locale`     | `'en'` \| `'ko'` \| `'ja'` \| `'zh'`     | ❌       | `'en'`       | Language for displaying AM/PM (English, Korean, Japanese, Chinese) |
 
 ## Time Format (`hourFormat`)
 

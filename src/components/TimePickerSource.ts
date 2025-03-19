@@ -1,3 +1,10 @@
+export const LOCALE_MAP = {
+  en: { AM: 'AM', PM: 'PM' },
+  ko: { AM: '오전', PM: '오후' },
+  ja: { AM: '午前', PM: '午後' },
+  zh: { AM: '上午', PM: '下午' },
+};
+
 type TimePickerSourceItem = {
   value: number;
   text: string;
@@ -6,17 +13,27 @@ type TimePickerSourceItem = {
 export type TimePickerSourceOptions = {
   hourFormat?: '12' | '24';
   infinite?: boolean;
+  locale?: keyof typeof LOCALE_MAP;
 };
 
 class TimePickerSource {
+  #ampm: TimePickerSourceItem[];
   #hours: TimePickerSourceItem[];
   #minutes: TimePickerSourceItem[];
   #hourFormat: '12' | '24';
   #infinite: boolean;
 
-  constructor({ hourFormat, infinite }: TimePickerSourceOptions = {}) {
+  constructor({
+    hourFormat,
+    infinite,
+    locale = 'en',
+  }: TimePickerSourceOptions = {}) {
     this.#hourFormat = hourFormat ?? '12';
     this.#infinite = infinite ?? false;
+    this.#ampm = [
+      { value: 1, text: LOCALE_MAP[locale].AM },
+      { value: 2, text: LOCALE_MAP[locale].PM },
+    ];
     this.#hours = this.#getHours();
     this.#minutes = this.#getMinutes();
   }
@@ -55,6 +72,10 @@ class TimePickerSource {
 
   #getMinutes() {
     return this.#getItems(0, 59);
+  }
+
+  get ampm() {
+    return this.#ampm;
   }
 
   get hours() {
