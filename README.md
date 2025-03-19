@@ -2,7 +2,7 @@
 
 # React ios style time picker
 
-![Image](https://github.com/user-attachments/assets/ff08826c-d6ac-408a-a934-b9746367311b)
+![Image](https://github.com/user-attachments/assets/a6e55fc3-1594-4cae-9ebe-fb2899e45303)
 
 iOS Style time picker for your next React app.
 
