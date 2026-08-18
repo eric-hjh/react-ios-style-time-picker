@@ -1,6 +1,7 @@
 {
   "name": "react-ios-style-time-picker",
-  "version": "0.0.11",
+  "version": "0.0.12",
+  "description": "A lightweight, customizable iOS-style rolling wheel time picker component for React.",
   "type": "module",
   "files": [
     "dist"

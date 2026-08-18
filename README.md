@@ -1,10 +1,10 @@
 [![npm](https://img.shields.io/npm/v/react-ios-style-time-picker)](https://www.npmjs.com/package/react-ios-style-time-picker)
 
-# React ios style time picker
+# React iOS Style Time Picker
 
-![Image](https://github.com/user-attachments/assets/a6e55fc3-1594-4cae-9ebe-fb2899e45303)
+![React iOS style time picker demo](https://github.com/user-attachments/assets/a6e55fc3-1594-4cae-9ebe-fb2899e45303)
 
-iOS Style time picker for your next React app.
+A lightweight, customizable **iOS-style rolling wheel time picker** component for your next **React** app — supports 12/24-hour format, infinite scroll, and multiple locales.
 
 ## Demo
 
