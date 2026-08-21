@@ -2,7 +2,7 @@
 
 # React iOS Style Time Picker
 
-![React iOS style time picker demo](https://github.com/user-attachments/assets/a6e55fc3-1594-4cae-9ebe-fb2899e45303)
+![React iOS style time picker demo](assets/example.gif)
 
 A lightweight, customizable **iOS-style rolling wheel time picker** component for your next **React** app — supports 12/24-hour format, infinite scroll, and multiple locales.
 
@@ -20,7 +20,7 @@ npm i react-ios-style-time-picker
 
 ### 12 hours format
 
-<img width="312" alt="Image" src="https://github.com/user-attachments/assets/30e13b77-f572-4ee9-a6bd-06e02e09edfc" />
+<img width="312" alt="12 hours format" src="assets/12-hours-format.png" />
 
 ```tsx
 import { useState } from 'react';
@@ -47,7 +47,7 @@ function App() {
 
 ### 24 hours format
 
-<img width="312" alt="Image" src="https://github.com/user-attachments/assets/d3bc1fab-5ee9-4072-8f56-f502e3019d7e" />
+<img width="312" alt="24 hours format" src="assets/24-hours-format.png" />
 
 ```tsx
 import { useState } from 'react';
