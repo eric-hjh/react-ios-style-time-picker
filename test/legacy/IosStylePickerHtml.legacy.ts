@@ -1,4 +1,7 @@
-import getRange from './utils/getRange';
+/* eslint-disable */
+// Verbatim copy of the pre-optimization renderer (main @ 7a91814), kept only as
+// the reference implementation for equivalence tests and the benchmark.
+import getRange from '../../src/components/IosStylePicker/utils/getRange';
 
 const classNames = {
   wrapper: 'ios-style-picker',
@@ -21,16 +24,7 @@ type IosStylePickerHtmlOptions = {
 class IosStylePickerHtml {
   private _container: HTMLElement;
   private _optionList: HTMLElement;
-  /** option item elements, ordered by their (contiguous) data-index */
-  private _optionItems: HTMLElement[];
-  /** data-index of `_optionItems[0]` (negative in infinite mode) */
-  private _firstItemIndex: number;
-  /**
-   * Inclusive range of item indices that are currently visible.
-   * `null` until the first `scroll()` call, which writes every item once
-   * (identical to the original implementation's initial pass).
-   */
-  private _visibleRange: { from: number; to: number } | null = null;
+  private _optionItems: NodeListOf<HTMLElement>;
   private _highlightList: HTMLElement;
 
   private _source: { text: string }[];
@@ -96,17 +90,7 @@ class IosStylePickerHtml {
     if (!optionsItems) {
       throw new Error('optionList does not exists');
     }
-    // Cache elements and their numeric indices once, instead of reading
-    // `dataset.index` on every animation frame.
-    this._optionItems = [...optionsItems];
-    this._firstItemIndex = this._optionItems.length
-      ? this._readIndex(this._optionItems[0])
-      : 0;
-    this._optionItems.forEach((itemElem, i) => {
-      if (this._readIndex(itemElem) !== this._firstItemIndex + i) {
-        throw new Error('option item indices must be contiguous');
-      }
-    });
+    this._optionItems = optionsItems;
 
     const highlightList = this._container.querySelector<HTMLElement>(
       `.${classNames.highlightList}`
@@ -185,102 +169,27 @@ class IosStylePickerHtml {
     const dy = -scrollCount * this.itemHeight;
     this._highlightList.style.transform = `translate3d(0, ${dy}px, 0)`;
 
-    this._updateVisibility(scrollCount);
-  }
-
-  private _readIndex(itemElem: HTMLElement) {
-    if (itemElem.dataset.index === undefined) {
-      throw new Error('itemElem.dataset.index does not exists');
-    }
-    return +itemElem.dataset.index;
-  }
-
-  /** Same rule as the original implementation. */
-  private _isVisible(index: number, scrollCount: number) {
-    return !(Math.abs(index - scrollCount) > this.wheelCount / 4);
-  }
-
-  /**
-   * Inclusive [from, to] range of item indices satisfying `_isVisible`,
-   * clamped to the rendered items. Visible indices always form one
-   * contiguous run because the rule is `|index - scrollCount| <= wheelCount / 4`.
-   * The estimate is corrected with the exact predicate so floating point
-   * rounding can never make the result differ from a full scan.
-   */
-  private _getVisibleRange(scrollCount: number) {
-    const first = this._firstItemIndex;
-    const last = first + this._optionItems.length - 1;
-    const half = this.wheelCount / 4;
-
-    if (Number.isNaN(scrollCount)) {
-      // `Math.abs(NaN) > half` is false, so the original rule shows every item
-      return { from: first, to: last };
-    }
-    if (!Number.isFinite(scrollCount)) {
-      // |index - ±Infinity| is Infinity, so every item is hidden
-      return { from: 0, to: -1 };
-    }
-
-    // clamp the estimates so the correction loops stay within the items
-    let from = Math.min(last + 1, Math.max(first, Math.ceil(scrollCount - half)));
-    while (from > first && this._isVisible(from - 1, scrollCount)) from--;
-    while (from <= last && !this._isVisible(from, scrollCount)) from++;
-
-    let to = Math.max(first - 1, Math.min(last, Math.floor(scrollCount + half)));
-    while (to < last && this._isVisible(to + 1, scrollCount)) to++;
-    while (to >= first && !this._isVisible(to, scrollCount)) to--;
-
-    // No visible item: represent as an empty range
-    if (!(from <= to)) {
-      return { from: 0, to: -1 };
-    }
-    return { from, to };
-  }
-
-  private _setVisibility(index: number, visible: boolean) {
-    this._optionItems[index - this._firstItemIndex].style.visibility = visible
-      ? 'visible'
-      : 'hidden';
-  }
-
-  private _updateVisibility(scrollCount: number) {
-    const next = this._getVisibleRange(scrollCount);
-    const prev = this._visibleRange;
-    this._visibleRange = next;
-
-    if (prev === null) {
-      // First pass: every item gets an explicit value.
-      this._optionItems.forEach((_, i) => {
-        const index = this._firstItemIndex + i;
-        this._setVisibility(index, index >= next.from && index <= next.to);
-      });
-      return;
-    }
-
-    // Items that left the visible range
-    for (let index = prev.from; index <= prev.to; index++) {
-      if (index < next.from || index > next.to) {
-        this._setVisibility(index, false);
+    [...this._optionItems].forEach((itemElem) => {
+      if (itemElem.dataset.index === undefined) {
+        throw new Error('itemElem.dataset.index does not exists');
       }
-    }
-    // Items that entered the visible range
-    for (let index = next.from; index <= next.to; index++) {
-      if (index < prev.from || index > prev.to) {
-        this._setVisibility(index, true);
-      }
-    }
+      itemElem.style.visibility =
+        Math.abs(+itemElem.dataset.index - scrollCount) > this.wheelCount / 4
+          ? 'hidden'
+          : 'visible';
+    });
   }
 
   addEventListener(
     eventName: 'touchstart' | 'touchmove' | 'touchend',
-    listener: (evt: TouchEvent) => void
+    listener: (evt: TouchEvent) => any
   ) {
     this._container.addEventListener(eventName, listener);
   }
 
   removeEventListener(
     eventName: 'touchstart' | 'touchmove' | 'touchend',
-    listener: (evt: TouchEvent) => void
+    listener: (evt: TouchEvent) => any
   ) {
     this._container.removeEventListener(eventName, listener);
   }
