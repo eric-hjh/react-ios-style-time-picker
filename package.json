@@ -45,7 +45,8 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "deploy-storybook": "storybook-to-ghpages"
+    "deploy-storybook": "storybook-to-ghpages",
+    "test": "vitest run"
   },
   "dependencies": {
     "react": ">=17.0.0",
@@ -53,7 +54,6 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^3.2.6",
-    "@storybook/storybook-deployer": "^2.8.16",
     "@eslint/js": "^9.21.0",
     "@storybook/addon-essentials": "^8.6.7",
     "@storybook/addon-interactions": "^8.6.7",
@@ -61,6 +61,7 @@
     "@storybook/blocks": "^8.6.7",
     "@storybook/react": "^8.6.7",
     "@storybook/react-vite": "^8.6.7",
+    "@storybook/storybook-deployer": "^2.8.16",
     "@storybook/test": "^8.6.7",
     "@types/node": "^22.13.10",
     "@types/react": "^19.0.10",
@@ -71,11 +72,13 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "eslint-plugin-storybook": "^0.11.6",
     "globals": "^15.15.0",
+    "jsdom": "^26.1.0",
     "storybook": "^8.6.7",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
-    "vite-plugin-dts": "^4.5.3"
+    "vite-plugin-dts": "^4.5.3",
+    "vitest": "^3.2.7"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
