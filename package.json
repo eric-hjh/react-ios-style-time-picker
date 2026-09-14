@@ -46,7 +46,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "deploy-storybook": "storybook-to-ghpages",
-    "test": "vitest run"
+    "test": "vitest run",
+    "bench:visibility": "vitest run test/visibility.test.ts"
   },
   "dependencies": {
     "react": ">=17.0.0",
