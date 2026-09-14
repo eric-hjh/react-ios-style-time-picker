@@ -178,7 +178,7 @@ class IosStylePicker {
     return Math.abs(v) > 30 ? 30 * sign : v;
   }
 
-  private _touchend(_evt: IosStylePickerUserEvent) {
+  private _touchend() {
     if (!this.html) {
       throw new Error('this.html does not exists.');
     }
@@ -333,13 +333,39 @@ class IosStylePicker {
   select(value: number) {
     for (let i = 0; i < this.source.length; i++) {
       if (this.source[i].value === value) {
-        window.cancelAnimationFrame(this.moveT);
+        // also clears `moving` so a programmatic select during inertia
+        // doesn't leave the picker thinking it is still animating
+        this._stop();
         const finalScroll = i;
         this._selectByScroll(finalScroll);
         return;
       }
     }
     throw new Error(`can't find value: ${value}`);
+  }
+
+  /**
+   * Updates item labels in place, keeping the current selection and scroll.
+   * `source` must contain the same values in the same order as the original.
+   */
+  updateSourceText(source: IosStylePickerSourceItem[]) {
+    const len = source.length;
+    if (!len || this.source.length % len !== 0) {
+      throw new Error('updateSourceText: source length mismatch');
+    }
+    const nextSource = this.source.map((item, i) => {
+      const next = source[i % len];
+      if (next.value !== item.value) {
+        throw new Error('updateSourceText: source values must not change');
+      }
+      return { ...item, text: next.text };
+    });
+    const selectedIndex = this.source.indexOf(this.selected);
+    this.source = nextSource;
+    if (selectedIndex !== -1) {
+      this.selected = nextSource[selectedIndex];
+    }
+    this.html?.updateText(nextSource);
   }
 
   async updateAmPm(value: number) {

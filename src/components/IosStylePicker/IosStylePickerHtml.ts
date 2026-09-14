@@ -32,6 +32,7 @@ class IosStylePickerHtml {
    */
   private _visibleRange: { from: number; to: number } | null = null;
   private _highlightList: HTMLElement;
+  private _highlightItems: HTMLElement[];
 
   private _source: { text: string }[];
   private _isInfinite: boolean;
@@ -118,6 +119,33 @@ class IosStylePickerHtml {
       highlightList.style.top = `${-this.itemHeight}px`;
     }
     this._highlightList = highlightList;
+    this._highlightItems = [
+      ...highlightList.querySelectorAll<HTMLElement>(
+        `.${classNames.highlightItem}`
+      ),
+    ];
+  }
+
+  /**
+   * Replaces the rendered labels in place (e.g. AM/PM after a locale change)
+   * without touching layout, scroll position or visibility.
+   * `source` must have the same length as the source used at render time.
+   */
+  updateText(source: { text: string }[]) {
+    if (source.length !== this._source.length) {
+      throw new Error('updateText: source length must not change');
+    }
+    this._source = source;
+    const len = source.length;
+    const textAt = (i: number) => source[(i + len) % len].text;
+
+    this._optionItems.forEach((itemElem, i) => {
+      itemElem.textContent = textAt(this._firstItemIndex + i);
+    });
+    const firstHighlightIndex = this._isInfinite ? -1 : 0;
+    this._highlightItems.forEach((itemElem, i) => {
+      itemElem.textContent = textAt(firstHighlightIndex + i);
+    });
   }
 
   _getOptionItems() {
