@@ -300,17 +300,21 @@ class IosStylePickerHtml {
   }
 
   addEventListener(
-    eventName: 'touchstart' | 'touchmove' | 'touchend',
-    listener: (evt: TouchEvent) => void
+    eventName: 'touchstart' | 'touchmove' | 'touchend' | 'wheel',
+    listener: (evt: TouchEvent & WheelEvent) => void
   ) {
-    this._container.addEventListener(eventName, listener);
+    this._container.addEventListener(
+      eventName,
+      listener as EventListener,
+      eventName === 'wheel' ? { passive: false } : undefined
+    );
   }
 
   removeEventListener(
-    eventName: 'touchstart' | 'touchmove' | 'touchend',
-    listener: (evt: TouchEvent) => void
+    eventName: 'touchstart' | 'touchmove' | 'touchend' | 'wheel',
+    listener: (evt: TouchEvent & WheelEvent) => void
   ) {
-    this._container.removeEventListener(eventName, listener);
+    this._container.removeEventListener(eventName, listener as EventListener);
   }
 
   equalOrContains(target: EventTarget | null) {

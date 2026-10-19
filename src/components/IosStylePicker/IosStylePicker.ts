@@ -48,7 +48,10 @@ class IosStylePicker {
     touchstart: (evt: IosStylePickerUserEvent) => void;
     touchmove: (evt: IosStylePickerUserEvent) => void;
     touchend: (evt: IosStylePickerUserEvent) => void;
+    wheel: (evt: WheelEvent) => void;
   };
+
+  private wheelEndTimer: number | undefined;
 
   private itemHeight: number;
   private itemAngle: number;
@@ -96,12 +99,14 @@ class IosStylePicker {
       touchstart: this._createEventListener('touchstart'),
       touchmove: this._createEventListener('touchmove'),
       touchend: this._createEventListener('touchend'),
+      wheel: this._createWheelListener(),
     };
 
     this.html?.addEventListener('touchstart', this.events.touchstart);
     document.addEventListener('mousedown', this.events.touchstart);
     this.html?.addEventListener('touchend', this.events.touchend);
     document.addEventListener('mouseup', this.events.touchend);
+    this.html?.addEventListener('wheel', this.events.wheel);
 
     if (this.source.length) {
       this.select(this.selected.value);
@@ -123,11 +128,68 @@ class IosStylePicker {
     };
   }
 
+  private _createWheelListener() {
+    return (evt: WheelEvent) => {
+      if (!this.html?.equalOrContains(evt.target)) {
+        return;
+      }
+      if (this.source.length === 0) {
+        return;
+      }
+      evt.preventDefault();
+      this._wheel(evt);
+    };
+  }
+
+  private _wheel(evt: WheelEvent) {
+    this._stop();
+    window.clearTimeout(this.wheelEndTimer);
+
+    const scrollAdd = evt.deltaY / this.itemHeight;
+    const baseMoveToControl = scrollAdd + this.scroll;
+    const moveToScroll =
+      this.variant === 'infinite'
+        ? normalize(baseMoveToControl, this.source.length)
+        : baseMoveToControl < 0
+        ? baseMoveToControl * 0.3
+        : baseMoveToControl > this.source.length
+        ? this.source.length + (baseMoveToControl - this.source.length) * 0.3
+        : baseMoveToControl;
+
+    this.scroll = this._moveTo(moveToScroll);
+
+    this.wheelEndTimer = window.setTimeout(() => {
+      this._snapAfterWheel();
+    }, 150);
+  }
+
+  private async _snapAfterWheel() {
+    let target = Math.round(this.scroll);
+    if (this.variant !== 'infinite') {
+      target =
+        target < 0
+          ? 0
+          : target > this.source.length - 1
+          ? this.source.length - 1
+          : target;
+    }
+
+    if (target === this.scroll) {
+      this._selectByScroll(target);
+      return;
+    }
+
+    const t = Math.sqrt(Math.abs(target - this.scroll) / this.sensitivity);
+    await this._animateToScroll(this.scroll, target, t, 'easeOutQuart');
+    this._selectByScroll(target);
+  }
+
   private _touchstart(evt: IosStylePickerUserEvent) {
     if (!this.html) {
       throw new Error('this.html does not exists');
     }
 
+    window.clearTimeout(this.wheelEndTimer);
     this.html.addEventListener('touchmove', this.events.touchmove);
     document.addEventListener('mousemove', this.events.touchmove);
 
@@ -384,10 +446,12 @@ class IosStylePicker {
 
   destroy() {
     this._stop();
+    window.clearTimeout(this.wheelEndTimer);
 
     this.html?.removeEventListener('touchstart', this.events.touchstart);
     this.html?.removeEventListener('touchmove', this.events.touchmove);
     this.html?.removeEventListener('touchend', this.events.touchend);
+    this.html?.removeEventListener('wheel', this.events.wheel);
     document.removeEventListener('mousedown', this.events.touchstart);
     document.removeEventListener('mousemove', this.events.touchmove);
     document.removeEventListener('mouseup', this.events.touchend);

@@ -4,7 +4,7 @@
 
 ![React iOS style time picker demo](assets/example.gif)
 
-A lightweight, customizable **iOS-style rolling wheel time picker** component for your next **React** app — supports 12/24-hour format, infinite scroll, and multiple locales.
+A lightweight, customizable **iOS-style rolling wheel time picker** component for your next **React** app — supports 12/24-hour format, infinite scroll, multiple locales, and touch, mouse drag, and mouse wheel input.
 
 ## Demo
 
@@ -124,6 +124,9 @@ Exported types: `TimePickerProps`, `TimePickerValue`, `TimePickerLocale`.
 
 ### Behavior notes
 
+- **Input methods:** each wheel can be moved by touch drag, mouse drag, and mouse
+  wheel scrolling. A wheel scroll settles on the nearest item shortly after the
+  scroll input stops, the same way a drag release snaps to the nearest item.
 - **Initial value priority:** `value` → `defaultValue` → `initTime` → current time.
   `defaultValue` / `initTime` are read on mount only.
 - **`onChange` on mount:** in uncontrolled mode `onChange` is called once after mount with
